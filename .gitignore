@@ -1,0 +1,8 @@
+tools/*
+!tools/*.c
+benchmarks/*
+!benchmarks/*.fut
+!benchmarks/*.cu
+!benchmarks/*.hpp
+data
+error_log
