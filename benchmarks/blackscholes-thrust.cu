@@ -73,12 +73,46 @@ public:
 
 float benchmark(const int years) {
   int days = years * 365;
-  return thrust::transform_reduce(
-             thrust::make_transform_iterator(thrust::make_counting_iterator(1), make_option(years)),
-             thrust::make_transform_iterator(thrust::make_counting_iterator(days), make_option(years)),
-             blackscholes_op(),
-             0.0,
-             thrust::plus<float>());
+
+  typedef thrust::tuple<bool, float, float, float> Option;
+
+  thrust::device_vector<float> valuation(days);
+
+  {
+  thrust::device_vector<bool> call(days);
+  thrust::device_vector<float> price(days);
+  thrust::device_vector<float> strike(days);
+  thrust::device_vector<float> year(days);
+
+  // Make portfolio
+  thrust::transform(thrust::make_counting_iterator(1),
+                    thrust::make_counting_iterator(days+1),
+                    thrust::make_zip_iterator(thrust::make_tuple
+                                                   (call.begin(),
+                                                    price.begin(),
+                                                    strike.begin(),
+                                                    year.begin())),
+                    make_option(years));
+
+  thrust::transform(thrust::make_zip_iterator(thrust::make_tuple
+                                                  (call.begin(),
+                                                   price.begin(),
+                                                   strike.begin(),
+                                                   year.begin())),
+                    thrust::make_zip_iterator(thrust::make_tuple
+                                              (call.end(),
+                                               price.end(),
+                                               strike.end(),
+                                               year.end())),
+                    valuation.begin(),
+                    blackscholes_op());
+  }
+
+  
+  return thrust::reduce(valuation.begin(),
+                        valuation.end(),
+                        0.0,
+                        thrust::plus<float>());
 }
 
 
