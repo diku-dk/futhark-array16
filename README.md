@@ -41,6 +41,12 @@ compilation or installation itself, but works entirely through C++
 header files, so this process is non-invasive and does not require
 superuser permissions.
 
+The Thrust programs are by default compiled with `-arch=sm_35`, which
+requires at least a 700-series GeForcce GPU.  If you have an older
+GPU, you will need to modify the `ARCHFLAG` variable in `Makefile`.
+For example, if you have a 600-series GPU, you should change the flag
+to `-arch=sm_30`.
+
 Unfortunately, the scripts will not always notice if a benchmark has
 failed to run - it will merely move on to the next (and even fail to
 print a newline, leading to a rather conspicious run-on line).  If you
