@@ -8,14 +8,14 @@
 
 #include "common.hpp"
 
-__host__ __device__ static
+__host__ __device__ inline static
 float horner(float x) {
   float c1 = 0.31938153, c2 = -0.356563782, c3 = 1.781477937, c4 = -1.821255978, c5 = 1.330274429;
   return x * (c1 + x * (c2 + x * (c3 + x * (c4 + x * c5))));
 }
 
 
-__host__ __device__ static
+__host__ __device__ inline static
 float cnd0(float d) {
   float k        = 1.0 / (1.0 + 0.2316419 * abs(d));
   float p        = horner(k);
@@ -23,7 +23,7 @@ float cnd0(float d) {
   return rsqrt2pi * exp(-0.5*d*d) * p;
 }
 
-__host__ __device__ static
+__host__ __device__ inline static
 float cnd(float d) {
   float c = cnd0(d);
   return 0.0 < d ? 1.0 - c : c;
