@@ -16,6 +16,11 @@ NVCFLAGS=-O3 -I $(HOME)/thrust
 
 all: benchmark
 
+# XXX: This runs much faster without -arch=sm_30 for some reason, but
+# many of the other benchmarks fail to compile if it's not passed.
+benchmarks/mss-thrust: benchmarks/mss-thrust.cu
+	nvcc $< -o $@ $(NVCFLAGS)
+
 %-thrust: %-thrust.cu
 	nvcc -arch=sm_30 $< -o $@ $(NVCFLAGS)
 
