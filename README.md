@@ -7,9 +7,10 @@ be in your `$PATH`), a working CUDA installation (with `nvcc` in your
 `$PATH`), a working OpenCL setup, and a working Thrust installation.
 You probably also need a *nix-like system.  We recommend downloading
 [Thrust from Github](https://github.com/thrust/thrust) and placing it
-in your home directory.  The build system will look there, and we have
-found that the Github version of Thrust performs better than the one
-that is preinstalled on most systems.
+in your home directory in the form of a folder named `thrust`.  The
+build system will look there, and we have found that the Github
+version of Thrust performs better than the one that is preinstalled on
+most systems.
 
 The benchmark system is built using `make` (sorry).  Ideally, you just
 run `make` and it will build and run all benchmarks, printing average
@@ -30,6 +31,21 @@ benchmarking with `-j`, as this will skew the runtimes.
 
 You can use `make_`*`benchmark`* to run just *benchmark*.  For example,
 `make_mss`.
+
+Problems
+--
+
+A common problem is that your version of Thrust is too old.  We
+recommend downloading the newest one from Github.  Thrust requires no
+compilation or installation itself, but works entirely through C++
+header files, so this process is non-invasive and does not require
+superuser permissions.
+
+Unfortunately, the scripts will not always notice if a benchmark has
+failed to run - it will merely move on to the next (and even fail to
+print a newline, leading to a rather conspicious run-on line).  If you
+wish to debug the problem, you may want to look the `error.log` file,
+to which stderr is usually redirected.
 
 Sample output
 --
