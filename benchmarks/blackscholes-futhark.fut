@@ -256,43 +256,45 @@
 --    24.862296]
 -- }
 
-fun f64 horner (f64 x) =
+default(f32)
+
+fun f32 horner (f32 x) =
    let {c1,c2,c3,c4,c5} = {0.31938153,-0.356563782,1.781477937,-1.821255978,1.330274429}
    in x * (c1 + x * (c2 + x * (c3 + x * (c4 + x * c5))))
 
-fun f64 fabs (f64 x) = if x < 0.0 then -x else x
+fun f32 fabs (f32 x) = if x < 0.0 then -x else x
 
-fun f64 cnd0 (f64 d) =
+fun f32 cnd0 (f32 d) =
    let k        = 1.0 / (1.0 + 0.2316419 * fabs(d)) in
    let p        = horner(k) in
    let rsqrt2pi = 0.39894228040143267793994605993438 in
-   rsqrt2pi * exp64(-0.5*d*d) * p
+   rsqrt2pi * exp32(-0.5*d*d) * p
 
-fun f64 cnd (f64 d) =
+fun f32 cnd (f32 d) =
    let c = cnd0(d)
    in if 0.0 < d then 1.0 - c else c
 
-fun f64 go ({bool,f64,f64,f64} x) =
+fun f32 go ({bool,f32,f32,f32} x) =
    let {call, price, strike, years} = x in
    let r       = 0.08 in  -- riskfree
    let v       = 0.30 in  -- volatility
-   let v_sqrtT = v * sqrt64(years) in
-   let d1      = (log64(price / strike) + (r + 0.5 * v * v) * years) / v_sqrtT in
+   let v_sqrtT = v * sqrt32(years) in
+   let d1      = (log32(price / strike) + (r + 0.5 * v * v) * years) / v_sqrtT in
    let d2      = d1 - v_sqrtT in
    let cndD1   = cnd(d1) in
    let cndD2   = cnd(d2) in
-   let x_expRT = strike * exp64(-r * years) in
+   let x_expRT = strike * exp32(-r * years) in
    if call then
      price * cndD1 - x_expRT * cndD2
    else
      x_expRT * (1.0 - cndD2) - price * (1.0 - cndD1)
 
-fun [f64] blackscholes ([{bool,f64,f64,f64}] xs) =
+fun [f32] blackscholes ([{bool,f32,f32,f32}] xs) =
    map (go, xs)
 
-fun [f64] main (int years) =
+fun [f32] main (int years) =
   let days = years*365 in
   let a = map(+1, iota(days)) in
-  let a = map(f64, a) in
-  let a = map(fn {bool,f64,f64,f64} (f64 x) => {x % 2 == 0, 58.0 + 4.0 * x / f64(days), 65.0, x / 365.0}, a) in
+  let a = map(f32, a) in
+  let a = map(fn {bool,f32,f32,f32} (f32 x) => {int(x) % 2 == 0, 58.0 + 4.0 * x / f32(days), 65.0, x / 365.0}, a) in
   blackscholes(a)
