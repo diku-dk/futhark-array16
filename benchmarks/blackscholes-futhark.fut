@@ -34,8 +34,8 @@ fun f32 go ({bool,f32,f32,f32} x) =
 fun [f32] blackscholes ([{bool,f32,f32,f32}] xs) =
    map (go, xs)
 
-fun f32 main (int years) =
-  let days = years*365 in
+fun f32 main (int days) =
+  let years = days // 365 in
   let a = map(+1, iota(days)) in
   let a = map(f32, a) in
   let a = map(fn {bool,f32,f32,f32} (f32 x) => {int(x) % 2 == 0, 58.0 + 4.0 * x / f32(days), 65.0, x / 365.0}, a) in

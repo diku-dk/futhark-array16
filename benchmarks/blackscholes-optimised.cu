@@ -71,8 +71,8 @@ public:
 
 };
 
-float benchmark(const int years) {
-  int days = years * 365;
+float benchmark(const int days) {
+  int years = days / 365;
   return thrust::transform_reduce(
              thrust::make_transform_iterator(thrust::make_counting_iterator(1), make_option(years)),
              thrust::make_transform_iterator(thrust::make_counting_iterator(days+1), make_option(years)),
@@ -83,15 +83,15 @@ float benchmark(const int years) {
 
 
 int main(int argc, char **argv) {
-  int runs, years;
-  runs_and_n(argc, argv, &runs, &years);
+  int runs, days;
+  runs_and_n(argc, argv, &runs, &days);
 
   /* Warmup */
-  float res = benchmark(years);
+  float res = benchmark(days);
 
   start_timing();
   for(size_t i = 0; i < runs; ++i) {
-    std::cout << benchmark(years) << std::endl;
+    std::cout << benchmark(days) << std::endl;
   }
   end_timing();
 
