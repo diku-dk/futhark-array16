@@ -37,12 +37,10 @@ $(patsubst benchmarks/%-optimised.cu, benchmark_%, $(wildcard benchmarks/*-optim
 	futhark-opencl $< -o $@
 
 $(ARRAY_BENCHMARKS:%=benchmark_%): benchmark_%: $(SIZES:%=data/%_integers) benchmarks/%-thrust benchmarks/%-futhark
-	echo; echo; echo "== $*"; \
-	tools/run-benchmark.sh $* $(SIZES) 2>>error.log
+	@echo; echo; echo "== $*"; tools/run-benchmark.sh $* $(SIZES) 2>>error.log
 
 $(SCALAR_BENCHMARKS:%=benchmark_%): benchmark_%: $(SIZES:%=data/%_scalar) benchmarks/%-thrust benchmarks/%-futhark
-	echo; echo; echo "== $*"; \
-	tools/run-bench-nontriv.sh $* $(SIZES) 2>>error.log
+	@echo; echo; echo "== $*"; tools/run-bench-nontriv.sh $* $(SIZES) 2>>error.log
 
 benchmark: build $(BENCHMARKS:%=benchmark_%)
 
