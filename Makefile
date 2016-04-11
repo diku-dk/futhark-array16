@@ -26,10 +26,10 @@ benchmarks/blackscholes-optimised: benchmarks/blackscholes-optimised.cu
 	nvcc $< -o $@ $(NVCFLAGS)
 
 %-thrust: %-thrust.cu
-	nvcc -arch=sm_30 $< -o $@ $(NVCFLAGS)
+	nvcc -arch=sm_35 $< -o $@ $(NVCFLAGS)
 
 %-optimised: %-optimised.cu
-	nvcc -arch=sm_30 $< -o $@ $(NVCFLAGS)
+	nvcc -arch=sm_35 $< -o $@ $(NVCFLAGS)
 
 $(patsubst benchmarks/%-optimised.cu, benchmark_%, $(wildcard benchmarks/*-optimised.cu)): benchmark_%: benchmarks/%-optimised
 
