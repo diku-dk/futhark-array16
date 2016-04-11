@@ -1,4 +1,5 @@
-== Empirical evaluation code for the paper "Design and GPGPU Performance of Futhark's Redomap Construct" submitted to ARRAY'16
+Empirical evaluation code for the paper "Design and GPGPU Performance of Futhark's Redomap Construct" submitted to ARRAY'16
+==
 
 To run these benchmarks you must have [the Futhark
 compiler](https://github.com/HIPERFIT/futhark) a working CUDA
@@ -16,7 +17,8 @@ runtimes on stdout.  Of course, many things can go wrong.  You may
 need to modify the `Makefile` to fix include paths and the like to fit
 your system.
 
--- Make targets
+Make targets
+--
 
 Apart from the main target that does everything, we also have more
 fine-grained targets.
@@ -29,7 +31,8 @@ benchmarking with `-j`, as this will skew the runtimes.
 You can use `make_*benchmark*` to run just *benchmark*.  For example,
 `make_mss`.
 
--- Sample output
+Sample output
+--
 
 This is from running on an NVIDIA Titan Black.
 
