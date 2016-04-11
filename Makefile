@@ -4,13 +4,15 @@ SIZES=100 50000 100000 500000 1000000 5000000 10000000
 SCALAR_BENCHMARKS=blackscholes redomap-nontriv
 ARRAY_BENCHMARKS=max index-of-max index-of-max-packed mss invred reduce-plus scan-plus
 BENCHMARKS=$(SCALAR_BENCHMARKS) $(ARRAY_BENCHMARKS)
-EXECUTABLES:=$(BENCHMARKS:%=benchmarks/%-thrust) $(patsubst benchmarks/%-optimised.cu, benchmarks/%-optimised, $(wildcard benchmarks/*-optimised.cu)) $(BENCHMARKS:%=benchmarks/%-futhark) 
+EXECUTABLES:=$(BENCHMARKS:%=benchmarks/%-thrust) \
+             $(patsubst benchmarks/%-optimised.cu, benchmarks/%-optimised, $(wildcard benchmarks/*-optimised.cu)) \
+             $(BENCHMARKS:%=benchmarks/%-futhark) 
 # The -I is to use a non-default version of Thrust, for example
 # the one from https://github.com/thrust/thrust
 NVCFLAGS=-O3 -I $(HOME)/thrust
 
 .PRECIOUS: %-futhark %-thrust %-optimised
-.PHONY: benchmark clean
+.PHONY: benchmark clean build
 
 all: benchmark
 
@@ -29,11 +31,13 @@ $(ARRAY_BENCHMARKS:%=benchmark_%): benchmark_%: $(SIZES:%=data/%_integers) bench
 	echo; echo; echo "== $*"; \
 	tools/run-benchmark.sh $* $(SIZES) 2>>error.log
 
-$(SCALAR_BENCHMARKS:%=benchmark_%): $(SIZES:%=data/%_scalar) benchmarks/redomap-nontriv-thrust benchmarks/redomap-nontriv-optimised benchmarks/redomap-nontriv-futhark
+$(SCALAR_BENCHMARKS:%=benchmark_%): $(SIZES:%=data/%_scalar) benchmarks/%-thrust benchmarks/%-futhark
 	echo; echo; echo "== $*"; \
 	tools/run-bench-nontriv.sh $* $(SIZES) 2>>error.log
 
-benchmark: $(SIZES:%=data/%_integers) $(EXECUTABLES) $(BENCHMARKS:%=benchmark_%)
+benchmark: build $(BENCHMARKS:%=benchmark_%)
+
+build: $(SIZES:%=data/%_integers) $(SIZES:%=data/%_scalar) $(EXECUTABLES)
 
 data/%_integers: tools/randomarray
 	mkdir -p data && tools/randomarray $(MIN) $(MAX) $* > $@
