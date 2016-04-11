@@ -20,6 +20,10 @@ all: benchmark
 # many of the other benchmarks fail to compile if it's not passed.
 benchmarks/mss-thrust: benchmarks/mss-thrust.cu
 	nvcc $< -o $@ $(NVCFLAGS)
+benchmarks/blackscholes-thrust: benchmarks/blackscholes-thrust.cu
+	nvcc $< -o $@ $(NVCFLAGS)
+benchmarks/blackscholes-optimised: benchmarks/blackscholes-optimised.cu
+	nvcc $< -o $@ $(NVCFLAGS)
 
 %-thrust: %-thrust.cu
 	nvcc -arch=sm_30 $< -o $@ $(NVCFLAGS)
