@@ -10,6 +10,9 @@ EXECUTABLES:=$(BENCHMARKS:%=benchmarks/%-thrust) \
 # The -I is to use a non-default version of Thrust, for example
 # the one from https://github.com/thrust/thrust
 NVCFLAGS=-O3 -I $(HOME)/thrust
+# Change this to something else if you have a GPU older than a
+# 700-series GeForce.
+ARCHFLAG=-arch=sm_35
 
 .PRECIOUS: %-futhark %-thrust %-optimised
 .PHONY: benchmark clean build
@@ -26,10 +29,10 @@ benchmarks/blackscholes-optimised: benchmarks/blackscholes-optimised.cu
 	nvcc $< -o $@ $(NVCFLAGS)
 
 %-thrust: %-thrust.cu
-	nvcc -arch=sm_35 $< -o $@ $(NVCFLAGS)
+	nvcc $(ARCHFLAG) $< -o $@ $(NVCFLAGS)
 
 %-optimised: %-optimised.cu
-	nvcc -arch=sm_35 $< -o $@ $(NVCFLAGS)
+	nvcc $(ARCHFLAG) $< -o $@ $(NVCFLAGS)
 
 $(patsubst benchmarks/%-optimised.cu, benchmark_%, $(wildcard benchmarks/*-optimised.cu)): benchmark_%: benchmarks/%-optimised
 
