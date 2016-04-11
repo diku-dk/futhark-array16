@@ -75,7 +75,7 @@ float benchmark(const int years) {
   int days = years * 365;
   return thrust::transform_reduce(
              thrust::make_transform_iterator(thrust::make_counting_iterator(1), make_option(years)),
-             thrust::make_transform_iterator(thrust::make_counting_iterator(days), make_option(years)),
+             thrust::make_transform_iterator(thrust::make_counting_iterator(days+1), make_option(years)),
              blackscholes_op(),
              0.0,
              thrust::plus<float>());
