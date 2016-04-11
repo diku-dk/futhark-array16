@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
   init_vector(&d);
 
   // Warmup
-  int s;
+  int s = 1;
   thrust::transform_inclusive_scan
     (d.begin(), d.end(),
      dres.begin(),
