@@ -28,7 +28,7 @@ not run them.  The advantage is that you can run `make build -j` to
 build everything in parallel.  It is not advisable to run the actual
 benchmarking with `-j`, as this will skew the runtimes.
 
-You can use `make_*benchmark*` to run just *benchmark*.  For example,
+You can use `make_`*`benchmark`* to run just *benchmark*.  For example,
 `make_mss`.
 
 Sample output
