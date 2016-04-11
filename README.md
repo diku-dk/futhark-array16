@@ -2,14 +2,14 @@ Empirical evaluation code for the paper "Design and GPGPU Performance of Futhark
 ==
 
 To run these benchmarks you must have [the Futhark
-compiler](https://github.com/HIPERFIT/futhark) a working CUDA
-installation (with `nvcc` in your `$PATH`), a working OpenCL setup,
-and a working Thrust installation.  You probably also need a *nix-like
-system.  We recommend downloading [Thrust from
-Github](https://github.com/thrust/thrust) and placing it in your home
-directory.  The build system will look there, and we have found that
-the Github version of Thrust performs better than the one that is
-preinstalled on most systems.
+compiler](https://github.com/HIPERFIT/futhark) (`futhark-opencl` must
+be in your `$PATH`), a working CUDA installation (with `nvcc` in your
+`$PATH`), a working OpenCL setup, and a working Thrust installation.
+You probably also need a *nix-like system.  We recommend downloading
+[Thrust from Github](https://github.com/thrust/thrust) and placing it
+in your home directory.  The build system will look there, and we have
+found that the Github version of Thrust performs better than the one
+that is preinstalled on most systems.
 
 The benchmark system is built using `make` (sorry).  Ideally, you just
 run `make` and it will build and run all benchmarks, printing average
