@@ -1,0 +1,31 @@
+diff --git a/src/Futhark/Optimise/Fusion/LoopKernel.hs b/src/Futhark/Optimise/Fusion/LoopKernel.hs
+index b991abb..4e1fb32 100644
+--- a/src/Futhark/Optimise/Fusion/LoopKernel.hs
++++ b/src/Futhark/Optimise/Fusion/LoopKernel.hs
+@@ -256,7 +256,7 @@ fuseSOACwithKer unfus_set outVars soac1 ker = do
+               SOAC.Map (cs1++cs2) w res_lam' new_inp
+ 
+     (SOAC.Map {}, SOAC.Redomap _ _ comm1 lam11 _ nes _)
+-      | mapFusionOK (drop (length nes) outVars) ker || horizFuse -> do
++      | False, mapFusionOK (drop (length nes) outVars) ker || horizFuse -> do
+       let (res_lam', new_inp) = fuseRedomap unfus_set outVars nes lam1 inp1_arr
+                                             outPairs lam2 inp2_arr
+           unfus_accs  = take (length nes) outVars
+@@ -265,7 +265,7 @@ fuseSOACwithKer unfus_set outVars soac1 ker = do
+               SOAC.Redomap (cs1++cs2) w comm1 lam11 res_lam' nes new_inp
+ 
+     (SOAC.Redomap _ _ comm2 lam2r _ nes2 _, SOAC.Redomap _ _ comm1 lam1r _ nes1 _)
+-      | mapFusionOK (drop (length nes1) outVars) ker || horizFuse -> do
++      | False, mapFusionOK (drop (length nes1) outVars) ker || horizFuse -> do
+       let (res_lam', new_inp) = fuseRedomap unfus_set outVars nes1 lam1 inp1_arr
+                                             outPairs lam2 inp2_arr
+           unfus_accs  = take (length nes1) outVars
+@@ -275,7 +275,7 @@ fuseSOACwithKer unfus_set outVars soac1 ker = do
+               SOAC.Redomap (cs1++cs2) w (comm1<>comm2) lamr res_lam' (nes1++nes2) new_inp
+ 
+     (SOAC.Redomap _ _ comm2 lam21 _ nes _, SOAC.Map {})
+-      | mapFusionOK outVars ker || horizFuse -> do
++      | False, mapFusionOK outVars ker || horizFuse -> do
+       let (res_lam, new_inp) = fuseMaps unfus_set lam1 inp1_arr outPairs lam2 inp2_arr
+           (_,extra_rtps) = unzip $ filter ((`HS.member` unfus_set) . fst) $
+                            zip outVars $ map (stripArray 1) $ SOAC.typeOf soac1

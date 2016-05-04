@@ -53,6 +53,16 @@ print a newline, leading to a rather conspicious run-on line).  If you
 wish to debug the problem, you may want to look the `error.log` file,
 to which stderr is usually redirected.
 
+Disabling redomap fusion
+--
+
+Running the benchmark suite with `redomap` fusion disabled is only
+partially automated.  Check out commit
+`645d00c896228cf5c82255bf1680ec25bce383fb of the Futhark compiler,
+apply the patch `futhark-disable-redomap.patch`, then re-run the
+benchmark suite with the crippled compiler.  The compiler will still
+perform `map`-`map` fusion.
+
 Sample output
 --
 
