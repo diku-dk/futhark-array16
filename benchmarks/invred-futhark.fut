@@ -1,5 +1,5 @@
-fun {i8, i8, i8, i8} unpackInt(int x) =
-  {i8(x >>> 24), i8(x >>> 16), i8(x >>> 8), i8(x >>> 0)}
+fun (i8, i8, i8, i8) unpackInt(int x) =
+  (i8(x >>> 24), i8(x >>> 16), i8(x >>> 8), i8(x >>> 0))
 
 fun int packInt(i8 a, i8 b, i8 c, i8 d) =
   ((i32(a)&0xFF) << 24) |
@@ -8,10 +8,10 @@ fun int packInt(i8 a, i8 b, i8 c, i8 d) =
   ((i32(d)&0xFF) << 0)
 
 fun int twoByTwoMult(int x, int y) =
-  let {x11, x12,
-       x21, x22} = unpackInt(x)
-  let {y11, y12,
-       y21, y22} = unpackInt(y)
+  let (x11, x12,
+       x21, x22) = unpackInt(x)
+  let (y11, y12,
+       y21, y22) = unpackInt(y)
 
   let z11 = x11 * y11 + x12 * y21
   let z12 = x11 * y12 + x12 * y22
@@ -22,8 +22,8 @@ fun int twoByTwoMult(int x, int y) =
 
 fun int eachAdd(int x, int y) =
   let x' = i8(x)
-  let {y11, y12,
-       y21, y22} = unpackInt(y)
+  let (y11, y12,
+       y21, y22) = unpackInt(y)
   in packInt(y11+x', y12+x',
              y21+x', y22+x')
 

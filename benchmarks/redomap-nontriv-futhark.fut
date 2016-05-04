@@ -18,7 +18,7 @@ fun f32 r       () = 0.03
 
 fun f32 zc(f32 t) = exp32(-r() * date_365(t, today()))
 
-fun {f32, f32, f32, [f32], [f32]}
+fun (f32, f32, f32, [f32], [f32])
 main(int n_sched) =
   let sw_mat  = 30.00f32 in
   let sw_ty   = 512.0f32 in
@@ -37,7 +37,7 @@ main(int n_sched) =
   in
   let vt_ends    = map( zc, beg_dates ) in
   let fact_aicis = map( zc, end_dates ) in
-  {lvl, t0, tn, vt_ends, fact_aicis}
+  (lvl, t0, tn, vt_ends, fact_aicis)
 
 
 
