@@ -58,7 +58,7 @@ Disabling redomap fusion
 
 Running the benchmark suite with `redomap` fusion disabled is only
 partially automated.  Check out commit
-`645d00c896228cf5c82255bf1680ec25bce383fb of the Futhark compiler,
+`a6ea70618fb892d04e2b6c23c92c5eb3eb29c7d1` of the Futhark compiler,
 apply the patch `futhark-disable-redomap.patch`, then re-run the
 benchmark suite with the crippled compiler.  The compiler will still
 perform `map`-`map` fusion.
